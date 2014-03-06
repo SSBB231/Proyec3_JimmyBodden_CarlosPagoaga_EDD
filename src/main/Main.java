@@ -9,6 +9,10 @@ package main;
 import MyClasses.MyLink;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,7 +24,29 @@ public class Main
       {
             //Crea el grafo para que maneje vértices de tipo String y aristas de tipo MyLink.
             Graph<String, MyLink> mainGraph = new DirectedSparseMultigraph();
+            File travel =new File("./travel");
+            if(travel.exists())
+        {
+            FileInputStream entrada;
+            try {
+                entrada = new FileInputStream(travel);
+                ObjectInputStream ruta = new ObjectInputStream(entrada);
+                String linea;      
+                String[] arre;
+                while((linea = (String)ruta.readObject()) != null)
+                {
+                    arre=linea.split(",");
+                    mainGraph.addEdge(new MyLink(arre[1],arre[2],Double.parseDouble(arre[3])), arre[1], arre[2]);
+                }
+                
+                ruta.close();
+                entrada.close();
+                    
+            } catch (Exception ex) {
+                
+            }
             
+        }
             //Aquí se lee el archivo de texto para poder agregar todas las aristas al grafo. 
             //Esto crea, a su vez, los vértices del grafo.----------------------------------------------------------------------------------------
             
@@ -33,5 +59,6 @@ public class Main
             //mainGraph.addEdge(new MyLink(string1, string2, weight), string1, string2);
             
             //----------------------------------------------------------------------------------------------------------------------------------------------------
+      //mira hay una cosa que no estoy seguro lo que es la aereolinea no lo ocupamos o que siempre esta en el archivo de texto
       }
 }
