@@ -7,15 +7,19 @@
 package main;
 
 import MyClasses.MyLink;
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.visualization.BasicVisualizationServer;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 
 import java.io.File;
 
 import java.io.FileReader;
 
-import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -61,6 +65,20 @@ public class Main
         }else{
                 JOptionPane.showMessageDialog(null, "Error No Existe el archivo");
             }
+            
+ // The Layout<V, E> is parameterized by the vertex and edge types
+ Layout<Integer, String> layout = new CircleLayout(mainGraph);
+ layout.setSize(new Dimension(300,300)); // sets the initial size of the space
+ // The BasicVisualizationServer<V,E> is parameterized by the edge types
+ BasicVisualizationServer<Integer,String> vv =  new BasicVisualizationServer<Integer,String>(layout);
+ vv.setPreferredSize(new Dimension(350,350)); //Sets the viewing area size
+ 
+ JFrame frame = new JFrame("Simple Graph View");
+ frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ frame.getContentPane().add(vv); 
+ frame.pack();
+ frame.setVisible(true); 
+
             //Aquí se lee el archivo de texto para poder agregar todas las aristas al grafo. 
             //Esto crea, a su vez, los vértices del grafo.----------------------------------------------------------------------------------------
             
