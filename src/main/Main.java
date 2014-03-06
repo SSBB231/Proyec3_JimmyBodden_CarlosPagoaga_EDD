@@ -8,8 +8,6 @@ package main;
 import MyClasses.MyLink;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.algorithms.shortestpath.ShortestPath;
-import edu.uci.ics.jung.algorithms.shortestpath.ShortestPathUtils;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
