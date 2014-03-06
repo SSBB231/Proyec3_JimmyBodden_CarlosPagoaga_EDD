@@ -26,6 +26,21 @@ public class MyLink
       @Override
       public String toString()
       {
-            return v1 +", "+ v2;
+            return v1 +","+ v2;
+      }
+
+      public double getWeight()
+      {
+            return weight;
+      }
+
+      public String getV1()
+      {
+            return v1;
+      }
+
+      public String getV2()
+      {
+            return v2;
       }
 }
