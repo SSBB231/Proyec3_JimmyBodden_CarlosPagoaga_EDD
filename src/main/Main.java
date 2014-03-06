@@ -9,6 +9,7 @@ package main;
 import MyClasses.MyLink;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,5 +34,10 @@ public class Main
             //mainGraph.addEdge(new MyLink(string1, string2, weight), string1, string2);
             
             //----------------------------------------------------------------------------------------------------------------------------------------------------
+            
+            
+            
+            JOptionPane.showInputDialog(null, "Ingrese las ciudades que desea visitar."
+                    + "\nPor favor ingréselas de la siguiente manera (sin espacios entre las comas):\n\nCiudad1,ciudad2,...,ciudadN.", "Ingrese las ciudades", JOptionPane.QUESTION_MESSAGE);
       }
 }
