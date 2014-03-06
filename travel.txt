@@ -42,7 +42,7 @@ American,AMS,JFK,3074.8
 American,DFW,MIA,528.364
 American,MIA,AMS,3754.47
 Spirit,SPS,MIA,190.32
-Spirit,SAL,JFK405.82
+Spirit,SAL,JFK,405.82
 easyJet,MAD,NAP,383.13
 United,HNL,HND,304
 United,HND,HNL,307
