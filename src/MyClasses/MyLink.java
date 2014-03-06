@@ -16,14 +16,11 @@ public class MyLink
             v2 = b;
             this.weight = weight;
       }
-<<<<<<< HEAD
-
+      
       public MyLink()
       {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            
       }
-=======
->>>>>>> 4719d2846c84318400ee893c79c15b3945b04888
       
       @Override
       public String toString()
