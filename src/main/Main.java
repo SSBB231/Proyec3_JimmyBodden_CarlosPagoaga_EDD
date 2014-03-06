@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,7 +47,9 @@ public class Main
                 
             }
             
-        }
+        }else{
+                JOptionPane.showMessageDialog(null, "Error No Existe el archivo");
+            }
             //Aquí se lee el archivo de texto para poder agregar todas las aristas al grafo. 
             //Esto crea, a su vez, los vértices del grafo.----------------------------------------------------------------------------------------
             
