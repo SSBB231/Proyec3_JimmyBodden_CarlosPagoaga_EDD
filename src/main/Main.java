@@ -5,13 +5,16 @@
  */
 package main;
 
+import MyClasses.Conjunto;
 import MyClasses.MyLink;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
+import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import foreignclasses.ShortestPath;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
@@ -35,7 +38,10 @@ public class Main
       public static void main(String[] args)
       {
             //Crea el grafo para que maneje vértices de tipo String y aristas de tipo MyLink.
-            Graph<String, MyLink> mainGraph = new UndirectedSparseMultigraph();
+
+//            Graph<String, MyLink> mainGraph = new DirectedSparseMultigraph();
+            Graph<String, MyLink> mainGraph = new DirectedSparseMultigraph();
+
             File travel = new File("./travel.txt");
             if (travel.exists())
             {
@@ -54,6 +60,7 @@ public class Main
                               arre = linea.split(",");
                               System.out.println("Probando3");
                               System.out.println("Added edge: " + mainGraph.addEdge(new MyLink(arre[1], arre[2], Double.parseDouble(arre[3])), arre[1], arre[2]));
+//                              System.out.println("Added edge: " + mainGraph.addEdge(new MyLink(arre[2], arre[1], Double.parseDouble(arre[3])), arre[2], arre[1]));
                               contador++;
                               System.out.println(contador);
                         }
@@ -101,7 +108,127 @@ public class Main
             //Se meten las variables (EN ORDEN) al grafo usando el siguiente código:
             //mainGraph.addEdge(new MyLink(string1, string2, weight), string1, string2);
             //----------------------------------------------------------------------------------------------------------------------------------------------------
-            //mira hay una cosa que no estoy seguro lo que es la aereolinea no lo ocupamos o que siempre esta en el archivo de texto
-            ////Nasdfasdfasdf
+            //---------------------------------------------------------- Aquí se va a realizar el algoritmo ----------------------------------------
+//            BruteForce bf = new BruteForce(mainGraph);
+//            
+//            bf.CalcBestRoute();
+            //Se crea un arreglo con todos los vértices del grafo.
+            
+            DijkstraShortestPath p = new DijkstraShortestPath(mainGraph, new Transformer<MyLink, Double>()
+            {
+                  public Double transform(MyLink link)
+                  {
+                        return link.weight;
+                  }
+            }, true);
+            
+            
+            String[] vertices;
+            vertices = mainGraph.getVertices().toArray(new String[mainGraph.getVertexCount()]);
+
+            for (int i = 0; i < vertices.length; i++)
+            {
+                  System.out.println(i + ") " + vertices[i]);
+            }
+
+            double[][] adjMatrix = new double[vertices.length][vertices.length];
+
+            for (int i = 0; i < adjMatrix[0].length; i++)
+            {
+                  for (int j = 0; j < adjMatrix.length; j++)
+                  {
+                        System.out.print("[" + adjMatrix[i][j] + "]");
+                  }
+                  System.out.println("");
+            }
+
+            for (int i = 0; i < vertices.length; i++)
+            {
+                  for (int j = 0; j < vertices.length; j++)
+                  {
+                        if (i != j && p.getDistance(vertices[i], vertices[j]) != null)
+                        {
+                              adjMatrix[i][j] = (Double)p.getDistance(vertices[i], vertices[j]);
+                        } else
+                        {
+                              adjMatrix[i][j] = -1;
+                        }
+                  }
+            }
+
+            System.out.println("");
+
+            for (int i = 0; i < adjMatrix[0].length; i++)
+            {
+                  for (int j = 0; j < adjMatrix.length; j++)
+                  {
+                        System.out.print("[" + adjMatrix[i][j] + "]");
+                  }
+                  System.out.println("");
+            }
+
+            String ciudades = JOptionPane.showInputDialog("Ingrese las ciudades separadas por comas."
+                    + "Escriba los códigos de ciudades con cuidado de la siguiente manera:"
+                    + "\nEjemplo: TGU,MIA,JFK.");
+            
+            if(ciudades.equals(null))
+            {
+                  JOptionPane.showMessageDialog(frame, "La cadena es nula. El programa ahora acabará.", "Error", JOptionPane.ERROR_MESSAGE);
+                  System.exit(0);
+            }
+            
+            String[] cs = ciudades.split(",");
+            
+            //------------------------------------------------------------------------------
+            
+            Conjunto w = new Conjunto(vertices.length);
+            
+            boolean flag = false;
+            int comienzo = 0;
+            
+            for (int i = 0; i < cs.length; i++)
+            {
+                  System.out.println(cs[i]);
+                  System.out.println(vertices[i]);
+                  System.out.println(cs[i].equals(vertices[i]));
+                  for (int j = 0; j < vertices.length; j++)
+                  {
+                        if (cs[i].equals(vertices[j]))
+                        {
+                              System.out.println("Soy igual.");
+                              w.aniadir(i);
+
+                              if (!flag)
+                              {
+                                    comienzo = i;
+                                    flag = true;
+
+                                    System.out.println(comienzo);
+                              }
+                        }
+                  }
+            }
+            
+            //-------------------------------------------------------------------------
+
+            for (int i = 0; i < w.cardinal(); i++)
+            {
+                  System.out.print("[" + w.getElementos()[i] + "]");
+            }
+
+            System.out.println("Hola.");
+
+            ShortestPath pr = new ShortestPath();
+
+            System.out.println("Retorno de camino(): " + pr.camino(25, comienzo, w, adjMatrix));
+
+            for (int i = 0; i < adjMatrix[0].length; i++)
+            {
+                  for (int j = 0; j < adjMatrix.length; j++)
+                  {
+                        System.out.print("[" + adjMatrix[i][j] + "]");
+                  }
+                  System.out.println("");
+            }
       }
 }
